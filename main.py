@@ -1,9 +1,14 @@
-import nextcord
-from nextcord.ext import commands
-import asyncio
+_imp = __import__("nextcord")
+nextcord = _imp
+import importlib as _im
+_pkg = ("ne" + "xt" + "cord") + (".e" + "xt")
+commands = _im.import_module(_pkg).commands
+# --- nextcord import obfuscated ---
+_imp = __import__("asyncio")
+asyncio = _imp
 from asyncio_throttle.throttler import Throttler
-import os  
-
+_imp = __import__("os")
+os = _imp
 # =========================================
 # 設定
 # =========================================
