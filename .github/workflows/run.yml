@@ -21,16 +21,17 @@ concurrency:
 jobs:
   run-bot:
     runs-on: ubuntu-latest
+
     steps:
       # 1. リポジトリをチェックアウト
       - name: リポジトリをチェックアウト
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4  # v3 → v4 に更新（最新）
 
       # 2. Pythonセットアップ
       - name: Pythonセットアップ
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5  # v4 → v5 に更新（安定版）
         with:
-          python-version: "3.10"
+          python-version: "3.11"       # 3.10でも可だが、最新安定版推奨
 
       # 3. 依存ライブラリインストール
       - name: 依存ライブラリをインストール
@@ -38,7 +39,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install nextcord asyncio-throttle requests
 
-      # 4. Botを起動（いつ新しいのが来ても前のBotを止める＆最大6時間稼働）
+      # 4. Botを起動（6時間で自動終了）
       - name: Botを起動
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
