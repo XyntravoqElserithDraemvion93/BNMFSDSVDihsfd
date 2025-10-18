@@ -9,11 +9,11 @@ on:
   workflow_dispatch:        # 手動実行も可能
 
 # ===========================
-# 重複防止（前のジョブは必ず停止）
+# 重複防止
 # ===========================
 concurrency:
   group: discord-bot
-  cancel-in-progress: true  # 新しいジョブが始まったら前のジョブは必ず停止
+  cancel-in-progress: true  # 新しいジョブが来たら前のジョブを必ず停止
 
 # ===========================
 # ジョブ定義
@@ -25,13 +25,13 @@ jobs:
     steps:
       # 1. リポジトリをチェックアウト
       - name: リポジトリをチェックアウト
-        uses: actions/checkout@v4  # v3 → v4 に更新（最新）
+        uses: actions/checkout@v4
 
       # 2. Pythonセットアップ
       - name: Pythonセットアップ
-        uses: actions/setup-python@v5  # v4 → v5 に更新（安定版）
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.11"       # 3.10でも可だが、最新安定版推奨
+          python-version: "3.11"
 
       # 3. 依存ライブラリインストール
       - name: 依存ライブラリをインストール
@@ -40,7 +40,7 @@ jobs:
           pip install nextcord asyncio-throttle requests
 
       # 4. Botを起動（6時間で自動終了）
-      - name: Botを起動
+      - name: Discord Bot起動
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
         run: |
