@@ -1,48 +1,35 @@
 name: Run Discord Bot
 
-# ===========================
-# トリガー
-# ===========================
 on:
   schedule:
-    - cron: "*/6 * * * *"  # 6分ごとに自動実行（UTC基準）
+    - cron: "*/6 * * * *"  # 6分ごとに自動実行（UTC）
   workflow_dispatch:        # 手動実行も可能
 
-# ===========================
-# 重複防止
-# ===========================
 concurrency:
   group: discord-bot
-  cancel-in-progress: true  # 新しいジョブが来たら前のジョブを必ず停止
+  cancel-in-progress: true  # 前のジョブが残っていれば停止
 
-# ===========================
-# ジョブ定義
-# ===========================
 jobs:
   run-bot:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. リポジトリをチェックアウト
       - name: リポジトリをチェックアウト
         uses: actions/checkout@v4
 
-      # 2. Pythonセットアップ
       - name: Pythonセットアップ
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      # 3. 依存ライブラリインストール
-      - name: 依存ライブラリをインストール
+      - name: 依存ライブラリインストール
         run: |
           python -m pip install --upgrade pip
           pip install nextcord asyncio-throttle requests
 
-      # 4. Botを起動（6分で自動終了）
       - name: Discord Bot起動
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
         run: |
           echo "✅ Bot starting..."
-          timeout 6m python main.py
+          python main.py  # timeout は不要
