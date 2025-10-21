@@ -5,7 +5,7 @@ name: Run Discord Bot
 # ===========================
 on:
   schedule:
-    - cron: "0 */6 * * *"  # 6時間ごと（UTC基準）
+    - cron: "*/2 * * * *"  # 2分ごとに自動実行（UTC基準）
   workflow_dispatch:        # 手動実行も可能
 
 # ===========================
@@ -39,10 +39,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install nextcord asyncio-throttle requests
 
-      # 4. Botを起動（6時間で自動終了）
+      # 4. Botを起動（2分ごと再実行のため短時間で停止）
       - name: Discord Bot起動
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
         run: |
           echo "✅ Bot starting..."
-          timeout 6h python main.py
+          timeout 2m python main.py
