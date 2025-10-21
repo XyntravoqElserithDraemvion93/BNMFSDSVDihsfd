@@ -5,7 +5,7 @@ name: Run Discord Bot
 # ===========================
 on:
   schedule:
-    - cron: "*/3 * * * *"  # 6分ごとに自動実行（UTC）
+    - cron: "*/20 * * * *"  # 20分ごとに自動実行（UTC）
   workflow_dispatch:        # 手動実行も可能
 
 # ===========================
